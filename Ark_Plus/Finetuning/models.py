@@ -18,9 +18,10 @@ from timm.models.helpers import load_state_dict
 
 from functools import partial
 import simmim
-from upernet_swin_transformer import UperNet_swin
+# from upernet_swin_transformer import UperNet_swin  # not available in this repo; unused for classification
 from convnext import ConvNeXt
 from resnet import ResNet50
+from intern_image import InternImageLarge
 from utils import load_swin_pretrained
 
 def build_classification_model(args):
@@ -117,7 +118,14 @@ def build_classification_model(args):
         elif args.model_name.lower() == "resnet50":
             if args.init.lower() =="random":
                 model = ResNet50(num_classes=args.num_class)
-        
+
+        elif args.model_name.lower() == "internimage_large":
+            if args.init.lower() == "random":
+                model = InternImageLarge(num_classes=args.num_class, pretrained=False)
+            else:
+                # Default: load IN-22K→1K pretrained weights from HuggingFace
+                model = InternImageLarge(num_classes=args.num_class, pretrained=True)
+
     else:
         print("Creating model from pretrained weights: "+ args.pretrained_weights)
         if args.model_name.lower() == "vit_base":
