@@ -9,7 +9,7 @@ yacs
 einops
 opencv-python==4.2.0.32
 timm==0.5.4
-transformers==4.1.1 
+transformers>=4.37.0
 albumentations==0.4.3
 imgaug
 Pillow

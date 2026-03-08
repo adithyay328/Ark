@@ -18,6 +18,21 @@ from timm.models.helpers import load_state_dict
 
 from functools import partial
 import simmim
+
+
+class RandomModel(nn.Module):
+    """
+    A 100% random model for smoke testing the training pipeline.
+    Takes input of any shape, outputs random logits of shape [batch_size, num_classes].
+    No trainable parameters - outputs pure torch.randn() every forward pass.
+    """
+    def __init__(self, num_classes):
+        super().__init__()
+        self.num_classes = num_classes
+    
+    def forward(self, x):
+        batch_size = x.shape[0]
+        return torch.randn(batch_size, self.num_classes, device=x.device, dtype=x.dtype)
 # from upernet_swin_transformer import UperNet_swin  # not available in this repo; unused for classification
 from convnext import ConvNeXt
 from resnet import ResNet50
@@ -27,6 +42,13 @@ from utils import load_swin_pretrained
 def build_classification_model(args):
     model = None
     print("Creating model...")
+    
+    # Handle RandomModel first (smoketest model - no pretrained weights needed)
+    if args.model_name.lower() == "random":
+        print("Creating RandomModel for smoketest - outputs pure random logits.")
+        model = RandomModel(num_classes=args.num_class)
+        return model
+    
     if args.pretrained_weights is None or args.pretrained_weights =='':
         print('Loading pretrained {} weights for {} from timm.'.format(args.init, args.model_name))
         if args.model_name.lower() == "vit_base":
