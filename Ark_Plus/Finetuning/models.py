@@ -24,11 +24,13 @@ class RandomModel(nn.Module):
     """
     A 100% random model for smoke testing the training pipeline.
     Takes input of any shape, outputs random logits of shape [batch_size, num_classes].
-    No trainable parameters - outputs pure torch.randn() every forward pass.
+    Has a dummy parameter so the optimizer has something to track, but outputs pure torch.randn().
     """
     def __init__(self, num_classes):
         super().__init__()
         self.num_classes = num_classes
+        # Dummy parameter - exists so optimizer has something to track, but is never used
+        self.dummy = nn.Parameter(torch.zeros(1), requires_grad=True)
     
     def forward(self, x):
         batch_size = x.shape[0]
