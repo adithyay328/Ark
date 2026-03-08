@@ -24,17 +24,20 @@ class RandomModel(nn.Module):
     """
     A 100% random model for smoke testing the training pipeline.
     Takes input of any shape, outputs random logits of shape [batch_size, num_classes].
-    Has a dummy parameter so the optimizer has something to track, but outputs pure torch.randn().
+    Has a dummy parameter included in computation for proper backward() support.
+    Output = random_logits * 1 + 0 * dummy_param (pure random, but with grad flow).
     """
     def __init__(self, num_classes):
         super().__init__()
         self.num_classes = num_classes
-        # Dummy parameter - exists so optimizer has something to track, but is never used
+        # Dummy parameter - included in computation for backward() support
         self.dummy = nn.Parameter(torch.zeros(1), requires_grad=True)
     
     def forward(self, x):
         batch_size = x.shape[0]
-        return torch.randn(batch_size, self.num_classes, device=x.device, dtype=x.dtype)
+        random_logits = torch.randn(batch_size, self.num_classes, device=x.device, dtype=x.dtype)
+        # Include dummy param in computation graph: logits * 1 + 0 * param = logits (but with grad)
+        return random_logits * 1.0 + 0.0 * self.dummy
 # from upernet_swin_transformer import UperNet_swin  # not available in this repo; unused for classification
 from convnext import ConvNeXt
 from resnet import ResNet50
