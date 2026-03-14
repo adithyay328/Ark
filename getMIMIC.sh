@@ -1,0 +1,1 @@
+wget -r -N -c -np --user adithyay328 --ask-password https://physionet.org/files/mimic-cxr/2.1.0/
