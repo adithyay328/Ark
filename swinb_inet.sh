@@ -21,7 +21,7 @@ python main_classification.py \
   --data_set CheXpert \
   --data_dir /scratch/ayerrams/CheXpert-v1.0/chexpertchestxrays-u20210408 \
   --train_list ../dataset/CheXpert/CheXpert_train_official.csv \
-  --val_list ../dataset/CheXpert/CheXpert_valid_official.csv \
+  --val_list ../dataset/CheXpert/CheXpert_test_official.csv \
   --test_list ../dataset/CheXpert/CheXpert_test_official.csv \
   --num_class 14 \
   --model swin_base \
