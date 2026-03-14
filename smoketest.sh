@@ -1,5 +1,5 @@
 #!/bin/bash
-# CheXpert + Random Model — Smoketest (100 epochs)
+# CheXpert + Random Model — Smoketest (2 epochs, 256 train samples)
 # This model outputs 100% random logits (torch.randn) to validate the training pipeline.
 # Results go to: Ark_Plus/Finetuning/Outputs/Classification/CheXpert/
 # Models go to:  Ark_Plus/Finetuning/Models/Classification/CheXpert/
@@ -27,7 +27,8 @@ python main_classification.py \
   --num_class 14 \
   --model random \
   --init random \
-  --lr 0.02 --opt sgd --epochs 5 --warmup-epochs 0 --batch_size 4096 \
+  --lr 0.02 --opt sgd --epochs 2 --warmup-epochs 0 --batch_size 64 \
+  --few_shot 256 \
   --workers 4 \
   --img_size 256 --input_size 224 \
   --trial 1 \
