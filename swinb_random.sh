@@ -11,7 +11,7 @@ pip install numpy tqdm scikit-image scikit-learn SimpleITK scipy pydicom \
   yacs einops opencv-python timm==0.5.4 transformers>=4.37.0 \
   albumentations imgaug Pillow pretrainedmodels pyyaml
 
-RUN_ID=$RANDOM
+RUN_ID=$(python3 -c "import random; print(random.randint(10000, 99999))")
 
 cd Ark_Plus/Finetuning/
 
