@@ -11,7 +11,7 @@ pip install numpy tqdm scikit-image scikit-learn SimpleITK scipy pydicom \
   yacs einops opencv-python timm==0.5.4 transformers>=4.37.0 \
   albumentations imgaug Pillow pretrainedmodels pyyaml
 
-RUN_ID=$(python3 -c "import random; print(random.randint(10000, 99999))")
+EXP_NAME=_inet_$(python3 -c "import random; print(random.randint(10000, 99999))")
 
 cd Ark_Plus/Finetuning/
 
@@ -31,7 +31,7 @@ python main_classification.py \
   --lr 0.02 --opt sgd --epochs 200 --warmup-epochs 0 --batch_size 64 \
   --img_size 256 --input_size 224 \
   --trial 1 \
-  --test_every_epoch \
-  --exp_name "_inet_${RUN_ID}"
+  --exp_name $EXP_NAME \
+  --test_every_epoch True
 
 echo "Done! Check results in Outputs/Classification/CheXpert/"
